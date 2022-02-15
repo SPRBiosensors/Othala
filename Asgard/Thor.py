@@ -961,7 +961,6 @@ class Thor():
             
             Extracts requested config and assigns the parameters.
             """
-            
             name = self.ConfigVar.get()
             if name != '':
                 self.silence=True
@@ -996,7 +995,8 @@ class Thor():
                             self.dir = DTHOR_IN
                         else :
                             self.dir = THOR_IN
-                            
+                
+                crop_check()
                 self.silence=False
                 self.config=config
                 spectra_nb_update()
@@ -1018,7 +1018,7 @@ class Thor():
             old_pos = self.SpectraS.get()*self.free_plot
             
             #hold
-            if self.HoldVar[idx] == 'X' :
+            if self.HoldVar[idx].get() == 'X' :
                 self.HoldVar[idx].set('O')
                 self.free_plot -=1
                 
@@ -1098,7 +1098,6 @@ class Thor():
             idx : int between 0-6
                 Plot where the saved spectrum is to be displayed
             """
-            
             id_ = self.SpecMVar[idx].get()
             index = id_-1
             
@@ -1112,6 +1111,18 @@ class Thor():
             if self.HoldVar[idx].get() == 'X' :
                 hold(idx)
                 
+            #change plot title manually as title of held spectra aren't changed    
+            if 'Nl' in self.CurrAsg.extra_codes :
+                label = self.CurrAsg.get_label(self.spec_idx[idx])
+            else :
+                label = 'unidentified'
+            self.spec_labels[idx] = label
+
+            title = 'Spectrum #%s (%s)' %(self.spec_id[idx], 
+                                          self.spec_labels[idx])
+            self.Plots[idx].config(title = title)
+                
+            
             spectra_nb_update()
             self.loop_execute(self.crop_norm)
             
@@ -1488,8 +1499,8 @@ class Thor():
 
             self.SpecMVar[i].trace('w', partial(spec_select, i))     
         
-        self.DevMenuB = Button(root, text='dev options',state=Dev_Mode_State,relief='raised', 
-                          command=open_dev_options)
+        self.DevMenuB = DevMenu(root, self, text='dev options',
+                                state=Dev_Mode_State,relief='raised')
         if Dev_Mode_State != 'disabled' :
             self.DevMenuB.grid(column=3, row=5, sticky='w')
         
