@@ -1108,6 +1108,7 @@ class Thor():
             else :
                 self.spec_labels[idx] = 'unidentified'
             
+            self.loop_execute(self.crop_norm)
             if self.HoldVar[idx].get() == 'X' :
                 hold(idx)
                 
@@ -1124,7 +1125,7 @@ class Thor():
                 
             
             spectra_nb_update()
-            self.loop_execute(self.crop_norm)
+            
             
         
         #Topsey Krett's special options
