@@ -85,7 +85,6 @@ class DevMenu(Button) :
         command_length : int
             Width of the command line.
         """
-        
         kw['text'] = text
         # kw['command']=self.make_window
         self.Master = Master
@@ -142,7 +141,7 @@ class DevMenu(Button) :
         """
         def key_chain(event):
             try:
-                string = self.Str.get().replace('self', 'self.master')
+                string = self.Str.get().replace('self', 'self.Master')
                 exec(string)
                 self.Str.set('')
             except Exception as err:
