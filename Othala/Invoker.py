@@ -72,7 +72,7 @@ def invoke(software_name) :
               'Mimir' : 'Mimir - Axis manager',
               'Axis' : 'Mimir - Axis manager'}
     
-    module = import_module('Asgard.' + software_name)
+    module = import_module('Othala.' + software_name)
     
     Master = Tk()
     Master.resizable(width=False, height=False)
