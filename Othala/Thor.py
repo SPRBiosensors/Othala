@@ -1747,7 +1747,7 @@ class Thor():
                     } #Parameter used by asgard
             
             Top.destroy()
-            self.CurrAsg.Thor_preprocess(dest, param, corr=CorrV.get(), noise=noise)
+            self.CurrAsg.Thor_preprocess(dest, param, raw=CorrV.get(), noise=noise)
             self.FileSelect._arrows('up')
                 
         Top = Toplevel(self.root)
