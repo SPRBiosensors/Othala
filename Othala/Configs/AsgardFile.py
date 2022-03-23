@@ -1319,7 +1319,7 @@ class AsgFile() :
                 self.spec_byte = int(frombuffer(byte, dtype=float32))
     
     
-    def Thor_preprocess(self, dest, param, corr=False, noise=None):
+    def Thor_preprocess(self, dest, param, raw=False, noise=None):
         """
         Preprocess the file according to given parameters
         
@@ -1329,7 +1329,7 @@ class AsgFile() :
             Path to destination file.  Will create or overwrite.
         param : dictionnary
             Similar shape has the self.Asgard_param dictionnary.
-        corr : Bool
+        raw : Bool
             Whether to keep correction in the final file or not.
         noise : path
             Path where the empty spectra should be sent.  
@@ -1351,10 +1351,10 @@ class AsgFile() :
         
         
         """
-        #Support for names without .asg and for names without path
         if 'G' in self.codes :
             raise Exc.FileFormatError
-            
+
+        #Support for names without .asg and for names without path
         if noise is not None :
             to_check = [dest, noise]
         else :
@@ -1428,7 +1428,6 @@ class AsgFile() :
         
         #%%Treat all spec and send them to proper file
         good_spec = []
-        length = len(self[0])
         for index in range(self*'Spec amount') :
             spec = self[index]
             spec = spec[param['Crop min']:param['Crop max']]
@@ -1478,9 +1477,12 @@ class AsgFile() :
                 
                 if normed[peak]-baseline[peak] > thresh :
                     peaks.append(peak)
-            
-            if corr is False :
+            length = len(spec)
+            if raw is True :
                 spec = self[index]
+                length = len(spec)
+            else :
+                self.extra_codes += 'Tn'
 
             if len(peaks) >= param['Peaks number'] :
                 to = temp_dest.name
