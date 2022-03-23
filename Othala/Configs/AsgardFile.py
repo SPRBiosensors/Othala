@@ -82,6 +82,7 @@ from ..CRR import CR_search_and_destroy
 from os.path import isfile, basename
 from os import remove, getcwd
 from shutil import copy
+from copy import deepcopy
 
 from struct import pack
 from numpy import frombuffer, float32, float64, ndarray, zeros, load, median
@@ -1483,7 +1484,7 @@ class AsgFile() :
                 length = len(spec)
             else :
                 self.extra_codes += 'Tn'
-
+                
             if len(peaks) >= param['Peaks number'] :
                 to = temp_dest.name
                 good_spec.append(index)
@@ -1505,7 +1506,11 @@ class AsgFile() :
                     for pix in spec:
                         f.write(bytearray(pack('f',pix)))
         
-        #Spec are sorted, now to update all param and make the headings                        
+        #Spec are sorted, now to update all param and make the headings  
+        if raw is False :
+            old_axis = deepcopy(self.Asgard_param['Axis'])
+            self.Asgard_param['Axis'] = self.Asgard_param['Axis'][self.Asgard_param['Crop min']:self.Asgard_param['Crop max']]
+                           
         temp_dest_head = TemporaryFile('wb', suffix='.asg', delete=False).name
         self.write_heading(temp_dest_head)
         temp_dest_head = AsgFile(temp_dest_head)
@@ -1623,7 +1628,8 @@ class AsgFile() :
         copy(temp_dest_head.path, dest)
         remove(temp_dest_head.path)
         remove(temp_dest.name)
-        
+        if raw is False :
+            self.Asgard_param['Axis'] = old_axis
         if dest == self.path :
             self.__init__(self.path, replace=False, root=self.root)
         
