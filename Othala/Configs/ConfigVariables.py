@@ -47,7 +47,7 @@ between sessions.
 TO DO : Bragi --> interface to manually set these parameter without touching the file
 
 """
-import Asgard.Invoker as dummy_file
+import Othala.Invoker as dummy_file
 from os.path import dirname
 
 #%% Paths
