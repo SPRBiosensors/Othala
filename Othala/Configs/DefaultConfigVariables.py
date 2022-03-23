@@ -45,7 +45,7 @@ tempered with.
 
 """
 
-import Asgard.Invoker as dummy_file
+import Othala.Invoker as dummy_file
 from os.path import dirname
 
 
