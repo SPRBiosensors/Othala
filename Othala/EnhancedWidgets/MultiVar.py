@@ -45,7 +45,7 @@ class MultiVar(master=None, name=None, value=None)
 
 from tkinter import Variable
 from _tkinter import TclError
-import Asgard.Configs.Exceptions as Exc
+from ..Configs import Exceptions as Exc
 
 
 class MultiVar(Variable):
