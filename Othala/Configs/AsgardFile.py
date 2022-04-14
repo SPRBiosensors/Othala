@@ -1483,7 +1483,8 @@ class AsgFile() :
                 spec = self[index]
                 length = len(spec)
             else :
-                self.extra_codes += 'Tn'
+                if 'Tn' not in self.extra_codes :
+                    self.extra_codes += 'Tn'
                 
             if len(peaks) >= param['Peaks number'] :
                 to = temp_dest.name
